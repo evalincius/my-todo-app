@@ -7,6 +7,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.example.todo.models.Task;
 import com.example.todo.repository.TaskRepository;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebMvcTest(TaskController.class)
@@ -52,13 +56,36 @@ public class TaskControllerTest {
 
         assertNotNull(result);
 
-
-
         verify(taskRepository, times(1)).saveAndFlush(ArgumentMatchers.refEq(task));
 
         Task actualTask = mapper.readValue(result.getResponse().getContentAsString(), Task.class);
 
         assertEquals(task.getDescription(), actualTask.getDescription());
         assertEquals(task.getStatus(), actualTask.getStatus());
+    }
+    
+    @Test
+    public void getListOfTasksTest() throws Exception{
+        List<Task> expectedListOfTasks = new ArrayList<>();  
+        
+        Task task = new Task();
+        task.setDescription("Test Task");
+        task.setStatus("NEW");
+
+        expectedListOfTasks.add(task);
+
+        when(taskRepository.findAll()).thenReturn(expectedListOfTasks);
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/task/all"))
+        .andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
+
+        assertNotNull(result);
+
+        verify(taskRepository, times(1)).findAll();
+
+        ObjectMapper mapper = new ObjectMapper();
+        List<Task> actualTasks = mapper.readValue(result.getResponse().getContentAsString(), new TypeReference<List<Task>>() {});
+
+        assertEquals(expectedListOfTasks.size(), actualTasks.size());
     }
 }
