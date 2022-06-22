@@ -1,5 +1,8 @@
 package com.example.todo.controllers;
 
+import java.util.List;
+
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,5 +24,10 @@ public class TaskController {
     @PostMapping
     public Task addTask(@RequestBody Task task){
         return taskRepository.saveAndFlush(task);
+    }
+
+    @GetMapping("/all")
+    public List<Task> getListOfTasks(){
+        return taskRepository.findAll();
     }
 }
