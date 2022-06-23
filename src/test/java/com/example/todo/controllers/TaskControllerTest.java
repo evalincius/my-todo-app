@@ -91,7 +91,7 @@ public class TaskControllerTest {
     }
 
     @Test
-    public void deleteTasRequestsTest() throws Exception{
+    public void deleteTaskRequestTest() throws Exception{
         Long exampleId = 1l;
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete("/task/"+exampleId))
