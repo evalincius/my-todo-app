@@ -108,4 +108,35 @@ public class TaskControllerTest {
         assertTrue(actualValue);
 
     }
+
+
+    @Test
+    public void updateTask() throws Exception{
+        ObjectMapper mapper = new ObjectMapper();
+
+        Task task = new Task();
+        task.setDescription("Test Task");
+        task.setStatus("COMPLETE");
+
+        String taskJsonString = mapper.writeValueAsString(task);
+
+        when(taskRepository.saveAndFlush(any())).thenReturn(task);
+
+        MvcResult result = mockMvc.perform(
+            MockMvcRequestBuilders.put("/task")
+            .accept(MediaType.APPLICATION_JSON)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(taskJsonString)
+            ).andExpect(MockMvcResultMatchers.status().isOk())
+            .andReturn();
+
+        assertNotNull(result);
+
+        verify(taskRepository, times(1)).saveAndFlush(ArgumentMatchers.refEq(task));
+
+        Task actualTask = mapper.readValue(result.getResponse().getContentAsString(), Task.class);
+
+        assertEquals(task.getDescription(), actualTask.getDescription());
+        assertEquals(task.getStatus(), actualTask.getStatus());
+    }
 }
