@@ -90,17 +90,16 @@ public class TaskControllerTest {
         assertEquals(expectedListOfTasks.size(), actualTasks.size());
     }
 
-
     @Test
-    public void deleteTasRequestskTest() throws Exception{
-        Long expectedId = 1l;
+    public void deleteTasRequestsTest() throws Exception{
+        Long exampleId = 1l;
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete("/task/"+expectedId))
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete("/task/"+exampleId))
         .andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
 
         assertNotNull(result);
 
-        verify(taskRepository, times(1)).deleteById(expectedId);
+        verify(taskRepository, times(1)).deleteById(exampleId);
 
         ObjectMapper mapper = new ObjectMapper();
 
