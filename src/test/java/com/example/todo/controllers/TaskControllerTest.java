@@ -2,6 +2,7 @@ package com.example.todo.controllers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -87,5 +88,25 @@ public class TaskControllerTest {
         List<Task> actualTasks = mapper.readValue(result.getResponse().getContentAsString(), new TypeReference<List<Task>>() {});
 
         assertEquals(expectedListOfTasks.size(), actualTasks.size());
+    }
+
+
+    @Test
+    public void deleteTasRequestskTest() throws Exception{
+        Long expectedId = 1l;
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete("/task/"+expectedId))
+        .andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
+
+        assertNotNull(result);
+
+        verify(taskRepository, times(1)).deleteById(expectedId);
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        Boolean actualValue = mapper.readValue(result.getResponse().getContentAsString(), Boolean.class);
+
+        assertTrue(actualValue);
+
     }
 }
