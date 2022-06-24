@@ -139,4 +139,31 @@ public class TaskControllerTest {
         assertEquals(task.getDescription(), actualTask.getDescription());
         assertEquals(task.getStatus(), actualTask.getStatus());
     }
+
+    @Test
+    public void searchTasksTest() throws Exception {
+        String expectedKeyword = "Test"; 
+
+        List<Task> expectedListOfTasks = new ArrayList<>();  
+        
+        Task task = new Task();
+        task.setDescription("Test Task");
+        task.setStatus("NEW");
+
+        expectedListOfTasks.add(task);
+
+        when(taskRepository.findByDescriptionContaining(expectedKeyword)).thenReturn(expectedListOfTasks);
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/task/searchByKeyword/"+ expectedKeyword))
+        .andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
+
+        assertNotNull(result);
+
+        verify(taskRepository, times(1)).findByDescriptionContaining(expectedKeyword);
+
+        ObjectMapper mapper = new ObjectMapper();
+        List<Task> actualTasks = mapper.readValue(result.getResponse().getContentAsString(), new TypeReference<List<Task>>() {});
+
+        assertEquals(expectedListOfTasks.size(), actualTasks.size());
+    }
 }
