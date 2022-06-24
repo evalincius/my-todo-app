@@ -44,4 +44,9 @@ public class TaskController {
     public Task updateTask(@RequestBody Task task) {
         return taskRepository.saveAndFlush(task);
     }
+
+    @GetMapping("searchByKeyword/{keyword}")
+    public List<Task> searchListOfTasksByKeyword(@PathVariable String keyword){
+        return taskRepository.findByDescriptionContaining(keyword);
+    }
 }
