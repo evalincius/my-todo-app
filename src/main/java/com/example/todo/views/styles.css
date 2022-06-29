@@ -1,0 +1,14 @@
+html {
+    background-color: lightslategray;
+}
+
+body {
+    background-color: white;
+    max-width: 1000px;
+    margin: 0 auto;
+    min-height: 95vh;
+}
+
+.header {
+    text-align: center;
+}
