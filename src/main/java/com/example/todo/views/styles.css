@@ -12,3 +12,24 @@ body {
 .header {
     text-align: center;
 }
+
+#mainContainer {
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.flexForm {
+    display: flex
+}
+
+.flex1{
+    flex: 1;
+}
+
+input {
+    height: 25px;
+    border-radius: 4px;
+    margin-right: 18px;
+}
+
+
