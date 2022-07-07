@@ -2,7 +2,6 @@ package com.example.todo.controllers;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +16,6 @@ import com.example.todo.repository.TaskRepository;
 
 @RestController
 @RequestMapping("/task")
-@CrossOrigin() 
 public class TaskController {
 
     private final TaskRepository taskRepository;
