@@ -41,4 +41,32 @@ input {
     background-size: 25px;
 }
 
+.todoList {
+    display: block;
+    padding-inline-start: 0;
+}
 
+ul li {
+    list-style-type: none;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    font-size: 18px;
+}
+
+ul li:hover {
+    background: #ddd;
+}
+
+
+.listItemDescriptionStyle {
+    border-bottom: 1px solid;
+    display: inline-block;
+    width: 90%;
+    margin-left: 12px;
+    margin-right: 12px;
+}
+
+ul li.checked span.listItemDescriptionStyle {
+    color:gray;
+    text-decoration: line-through;
+}
