@@ -18,27 +18,4 @@ body {
     padding-right: 25px;
 }
 
-.flexForm {
-    display: flex
-}
-
-.flex1{
-    flex: 1;
-}
-
-input {
-    height: 25px;
-    border-radius: 4px;
-    margin-right: 18px;
-}
-
-.defaultVerticalSpacing {
-    padding-top: 25px;
-}
-
-.todoSearch {
-    background: url("https://static.thenounproject.com/png/101791-200.png") no-repeat right;
-    background-size: 25px;
-}
-
 
