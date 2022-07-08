@@ -70,3 +70,8 @@ ul li.checked span.listItemDescriptionStyle {
     color:gray;
     text-decoration: line-through;
 }
+
+.tickIconStyle {
+    cursor: pointer;
+}
+
