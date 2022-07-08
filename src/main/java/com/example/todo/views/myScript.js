@@ -56,39 +56,3 @@ function addRemoveOption(todoTaskNode){
     removeSpanNode.appendChild(removeText);
     todoTaskNode.appendChild(removeSpanNode);
 }
-
-function submitNewTodoTaskForm(form) {
-    let newTodoItemDesciption = form.newItemDescription.value.trim();
-    if (newTodoItemDesciption === "") {
-        alert("Please enter a value for your task");
-    } else {
-        createTodoItem(newTodoItemDesciption);
-        form.newItemDescription.value = "";
-    }
-    return false;
-}
-
-function createTodoItem(listItemDescription) {
-    const newItem = {
-        "description": listItemDescription,
-        "status": "NEW"
-    };
-
-    const requestOptions = {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(newItem)
-    };
-
-    fetch("http://localhost:8080/task", requestOptions).then((response) => {
-        if (!response.ok) {
-            alert("An error has occurred. Unable to create the TODO task")
-            throw response.status;
-        } else return response.json();
-    }).then(task => {
-        renderTodoTask(task);
-    });
-
-
-
-}
