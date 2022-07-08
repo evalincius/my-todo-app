@@ -38,12 +38,7 @@ function addTickboxOption(todoTaskNode, task){
         tickText = document.createTextNode("\u2611");
         todoTaskNode.className = "checked";
     }
-    tickSpanNode.className = "tickIconStyle";
     tickSpanNode.appendChild(tickText);
-    tickSpanNode.onclick = function () {
-        onTickBoxToggled(todoTaskNode, tickSpanNode, task);
-    }
-    
     todoTaskNode.appendChild(tickSpanNode);
 }
 
@@ -108,32 +103,4 @@ function searchTodoTasks(searchKeywordElement) {
             } else return response.json();
         }).then((tasks) => displayFetchedTodoTasks(tasks));
     }
-}
-
-function onTickBoxToggled(todoTaskNode, tickSpanNode, task){
-    if (task["status"] === "NEW") {
-        task["status"] = "COMPLETED";
-        tickSpanNode.textContent = "\u2611";
-    } else {
-        task["status"] = "NEW";
-        tickSpanNode.textContent = "\u2610";
-    }
-    todoTaskNode.classList.toggle("checked");
-
-    updateTodoTask(task);
-}
-
-function updateTodoTask(task) {
-    const requestOptions = {
-        method: "PUT",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(task)
-    };
-
-    fetch("http://localhost:8080/task", requestOptions).then((response) => {
-        if (!response.ok) {
-            alert("An error has occurred.  Unable to UPDATE the TODO task")
-            throw response.status;
-        } else return response.json();
-    });
 }
