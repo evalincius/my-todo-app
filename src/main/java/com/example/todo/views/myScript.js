@@ -23,7 +23,7 @@ function renderTodoTask(task) {
 
     addTickboxOption(todoTaskNode, task);
     addDescription(todoTaskNode, task);
-    addRemoveOption(todoTaskNode);
+    addRemoveOption(todoTaskNode, task);
 
     
     let todoListElement = document.getElementById("todoList");
@@ -39,7 +39,7 @@ function addTickboxOption(todoTaskNode, task){
         todoTaskNode.className = "checked";
     }
     tickSpanNode.appendChild(tickText);
-    tickSpanNode.className = "tickIconStyle";
+    tickSpanNode.className = "pointerIconStyle";
     tickSpanNode.onclick = function () {
         onTickBoxToggled(task, tickSpanNode, todoTaskNode);
     }
@@ -54,10 +54,14 @@ function addDescription(todoTaskNode, task){
     todoTaskNode.appendChild(descriptionSpanNode);
 }
 
-function addRemoveOption(todoTaskNode){
+function addRemoveOption(todoTaskNode, task){
     let removeSpanNode = document.createElement("span");
     let removeText = document.createTextNode("X");
     removeSpanNode.appendChild(removeText);
+    removeSpanNode.className = "pointerIconStyle";
+    removeSpanNode.onclick = function () {
+        onRemoveItemClicked(task, todoTaskNode);
+    }
     todoTaskNode.appendChild(removeSpanNode);
 }
 
@@ -134,4 +138,26 @@ function updateTodoTask(task) {
         } else return response.json();
     });
 
+}
+
+function onRemoveItemClicked(task, todoTaskNode){
+    let toDelete = confirm("Are you sure that you want to delete " + task.description + "?");
+
+    if(toDelete){
+        deleteTodoItem(task["id"]);
+        todoTaskNode.remove();
+    }
+}
+
+function deleteTodoItem(todoTaskId) {
+    const requestOptions = {
+        method: "DELETE"
+    }
+
+    fetch("http://localhost:8080/task/" + todoTaskId, requestOptions).then((response) => {
+        if (!response.ok) {
+            alert("An error has occurred.  Unable to DELETE the TODO task")
+            throw response.status;
+        } else return response.json();
+    });
 }

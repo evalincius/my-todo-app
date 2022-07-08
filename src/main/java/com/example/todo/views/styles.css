@@ -71,6 +71,6 @@ ul li.checked span.listItemDescriptionStyle {
     text-decoration: line-through;
 }
 
-.tickIconStyle {
+.pointerIconStyle {
     cursor: pointer;
 }
