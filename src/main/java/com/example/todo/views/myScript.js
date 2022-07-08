@@ -89,3 +89,18 @@ function createTodoItem(listItemDescription) {
         renderTodoTask(task);
     });
 }
+
+
+function searchTodoTasks(searchKeywordElement) {
+    let searchKeyword = searchKeywordElement.value.trim();
+    if (searchKeyword === "") {
+        fetchTodoTasks();
+    } else {
+        fetch("http://localhost:8080/task/searchByKeyword/"+ searchKeyword).then((response) => {
+            if (!response.ok) {
+                alert("An error has occurred.  Unable to fetch TODO items")
+                throw response.status;
+            } else return response.json();
+        }).then((tasks) => displayFetchedTodoTasks(tasks));
+    }
+}
