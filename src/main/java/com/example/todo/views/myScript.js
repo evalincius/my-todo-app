@@ -39,6 +39,10 @@ function addTickboxOption(todoTaskNode, task){
         todoTaskNode.className = "checked";
     }
     tickSpanNode.appendChild(tickText);
+    tickSpanNode.className = "tickIconStyle";
+    tickSpanNode.onclick = function () {
+        onTickBoxToggled(task, tickSpanNode, todoTaskNode);
+    }
     todoTaskNode.appendChild(tickSpanNode);
 }
 
@@ -103,4 +107,31 @@ function searchTodoTasks(searchKeywordElement) {
             } else return response.json();
         }).then((tasks) => displayFetchedTodoTasks(tasks));
     }
+}
+
+function onTickBoxToggled(task, tickSpanNode, todoTaskNode){
+    if (task["status"] === "NEW") {
+        task["status"] = "COMPLETED";
+        tickSpanNode.textContent = "\u2611";
+    } else {
+        task["status"] = "NEW";
+        tickSpanNode.textContent = "\u2610";
+    }
+    todoTaskNode.classList.toggle("checked");
+    updateTodoTask(task);
+}
+
+function updateTodoTask(task) {
+    const requestOptions = {
+        method: "PUT",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(task)
+    };
+    fetch("http://localhost:8080/task", requestOptions).then((response) => {
+        if (!response.ok) {
+            alert("An error has occurred.  Unable to UPDATE the TODO task")
+            throw response.status;
+        } else return response.json();
+    });
+
 }
